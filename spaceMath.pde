@@ -1,10 +1,12 @@
 PImage nave, asteroide, fondo;
 Boolean GenNum = true;
 Boolean onGame = true;
-int Op1, Op2, rondas, rightAns,a, b = 0;
+Boolean win = false;
+int Op1, Op2, rondas, rightAns,a, b, wrongAns = 0;
 int PosXnave =314;
 int posYnave = 385;
 Asteroide[] asteroides;
+
  
 void setup() {
   size(800,600);
@@ -12,10 +14,6 @@ void setup() {
   asteroide = loadImage("ast0.png");
   fondo = loadImage("fondo.jpg");
   startGame();
-}
-
-int suma(int a, int b){
-  return a + b;
 }
 
 ArrayList<Bullet> balas = new ArrayList<Bullet>();
@@ -30,6 +28,7 @@ Asteroide[] eliminarAsteroide(Asteroide[] array, int indice) {
 void draw() {
   
  background(fondo);
+ 
   
  if (onGame) {   
     for (int i = balas.size() - 1; i >= 0; i--) {
@@ -42,20 +41,19 @@ void draw() {
             if (asteroides[j].hitbullet(bala.getX(), bala.getY())) {
                 balas.remove(i);
                 if (asteroides[j].getValue() == rightAns){
-      
-                  asteroides = eliminarAsteroide(asteroides, j);
-
+                  asteroides[j].hit();
+                  if (asteroides[j].golpes == 4){
+                    asteroides = eliminarAsteroide(asteroides, j);
+                  }                  
                 }
-                else {
-                  
+                else {  
                   for (int k = 0; k < asteroides.length; k++) {
                         asteroides[k].increaseSpeed();
                   }                
-                }
+                } 
                 break;
             }
         }
-    
         if (!balas.isEmpty()) {
             for (int z = balas.size() - 1; z >= 0; z--) {
                 if (balas.get(z).fueraDePantalla()) {
@@ -63,26 +61,22 @@ void draw() {
                 }
             }
         }
-    }
-    
+    }   
     for (int i = asteroides.length - 1; i >= 0; i--) {
         asteroides[i].mover();
         asteroides[i].mostrar();
         if (asteroides[i].hitship(PosXnave)){
             onGame = false;
         }
-        
         if (asteroides[i].fueraDePantalla()){
             rondas += 1;
             startGame();
         }
     }
-
-   // top-up == 0, top-botom == 650
-   // rigth-top == 800, left-top == 0
+    
    image(nave,PosXnave,posYnave,155,114);
-   textSize(50);
-   text(a + " + " + b , 330, 560);
+   showRound();
+
  }
  else {
    textSize(70);
@@ -93,7 +87,6 @@ void draw() {
    textSize(30);
    text("Press R To Retry", 270, 370);
    if (keyPressed){
-     
      if (key == 'R' || key == 'r') {
        rondas = 0;
        startGame();
@@ -102,29 +95,71 @@ void draw() {
  }
 }
 
-void startGame() {
-  fill(255,255,255);
-  onGame = true;
-  balas.clear();
+void showRound(){
+  if (rondas >= 0 && rondas <= 2){
+     textSize(50);
+     text(a + " + " + b , 330, 560);    
+  } else if (rondas >= 3 && rondas <= 5){
+     textSize(50);
+     text(a + " - " + b , 330, 560);   
+  } else if (rondas >= 6 && rondas <= 8){
+     textSize(50);
+     text(a + " x " + b , 330, 560);  
+  } else {
+    posYnave -= 5;
+    textSize(40);
+    fill(255,255,0);
+    text("Felicidades, sobreviviste todas las rondas", 60, 300);
+  }
+}
+
+void createAsteroids(int rightAns){
+  
   asteroides = new Asteroide[6];
   int randomIndex = int(random(asteroides.length - 1));
-  a = int(random(100));
-  b = int(random(100));
-  rightAns = suma(a, b);
-  println("a: " + a + " b: " + b +" ans: "+rightAns);
   for (int i = 0; i < asteroides.length; i++) {
     if (i == randomIndex){
       float x = (i * 100) + (i * 40);
       float y = -100;
-      asteroides[i] = new Asteroide(x, y, asteroide, rightAns);      
+      asteroides[i] = new Asteroide(x, y, asteroide, rightAns, 0);      
     }
     else {
-      
+      do {  
+        wrongAns = int(random(20));
+      } while (wrongAns == rightAns);
       float x = (i * 100) + (i * 40);
       float y = -100;
-      asteroides[i] = new Asteroide(x, y, asteroide, int(random(100)));
+      asteroides[i] = new Asteroide(x, y, asteroide, int(random(20)), 0);
+      
     }
   }
+}
+
+void selectRound(){
+  a = int(random(10));
+  b = int(random(10));
+  Operacion operacion = new Operacion(a, b);
+  if (rondas >= 0 && rondas <= 2){
+    rightAns = operacion.suma();
+    createAsteroids(rightAns); 
+    println(a + " + " + b + " = " +rightAns);
+  } else if (rondas >= 3 && rondas <= 5) {
+    rightAns = operacion.resta();
+    createAsteroids(rightAns); 
+    println(a + " -" + b + " = " +rightAns);
+  } else if (rondas >= 6 && rondas <= 8){
+    rightAns = operacion.multiplicacion();
+    createAsteroids(rightAns); 
+    println(a + " * " + b + " = " +rightAns); 
+  }
+  
+}
+
+void startGame() {
+  fill(255,255,255);
+  onGame = true;
+  balas.clear();
+  selectRound();
 }
 
 

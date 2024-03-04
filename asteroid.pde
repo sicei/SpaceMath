@@ -2,15 +2,25 @@ class Asteroide {
   PImage imagen;
   float posX, posY;
   boolean enMovimiento = true;
-  int value;
-  int speed = 1;
+  int value, golpes;
+  float speed = 1.5;
   
-  Asteroide(float x, float y, PImage img, int ans) {
+  Asteroide(float x, float y, PImage img, int ans, int golpes) {
     this.posX = x;
     this.posY = y;
     this.imagen = img;
     this.value = ans;
+    this.golpes = golpes;
   }
+  
+  void hit(){
+    if (this.golpes < 5) {
+      this.posX += random(-2,2);
+      this.posY += random(-25,0);
+      this.golpes += 1;
+    }
+  }
+  
   
   void mover() {
     if (enMovimiento){
@@ -19,15 +29,11 @@ class Asteroide {
   }
   
   void increaseSpeed(){
-  
     speed += 1;
-  
   }
-  
+
   int getValue(){
-  
     return this.value;
-  
   }
   
   void mostrar() {
