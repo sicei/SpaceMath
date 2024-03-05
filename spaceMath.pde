@@ -12,7 +12,7 @@ void setup() {
   size(800,600);
   naveimg = loadImage("nave.png");
   asteroideimg = loadImage("ast0.png");
-  fondo = loadImage("fondo.jpg");
+  fondo = loadImage("fondo.png");
   balas = new ArrayList<Bullet>();
   asteroides = new ArrayList<Asteroide>();
   startGame();
@@ -60,7 +60,7 @@ void draw() {
               break; 
           }
       }
-      
+           
    image(naveimg,navePos.x,navePos.y,155,114);
    showRound();
   }
@@ -83,7 +83,8 @@ void draw() {
 
 void showOperation(int a, int b, String sign){
   textSize(50);
-  text(a + sign + b , 330, 560);
+  fill(255,255,255);
+  text(a + sign + b , 340, 560);
 }
 
 void showRound(){
@@ -106,7 +107,7 @@ void createAsteroids(int rightAns){
   int randomIndex = int(random(6));
   for (int i = 0; i < 6; i++) {
     if (i == randomIndex){
-      float x = (i * 100) + (i * 40);
+      float x = (i * 95) + (i * 40);
       float y = -100;
       asteroides.add(new Asteroide(x, y, asteroideimg, rightAns, 0));      
     }
@@ -114,7 +115,7 @@ void createAsteroids(int rightAns){
       do {  
         wrongAns = int(random(20));
       } while (wrongAns == rightAns);
-      float x = (i * 100) + (i * 40);
+      float x = (i * 95) + (i * 40);
       float y = -100;
       asteroides.add(new Asteroide(x, y, asteroideimg, wrongAns, 0));
       

@@ -37,9 +37,14 @@ class Asteroide {
   }
   
   void mostrar() {
-    image(this.imagen, this.posX, this.posY, 100, 100);
-    textSize(30);
-    text(str(value), this.posX + 30, this.posY - 20);
+    image(this.imagen, this.posX, this.posY, 130, 130);
+    textSize(50);
+    fill(0,0,0);
+    if (this.value < 9){
+      text(str(value), this.posX + 50, this.posY + 80);
+    } else { 
+      text(str(value), this.posX + 40, this.posY + 80);    
+    }  
   }
   
   boolean fueraDePantalla() {
@@ -47,8 +52,8 @@ class Asteroide {
   }
   
   boolean hitbullet(float posXbullet, float posYbullet) {
-      float asteroidWidth = 100;
-      float asteroidHeight = 100;
+      float asteroidWidth = 120;
+      float asteroidHeight = 120;
   
       if ((this.posX > posXbullet - asteroidWidth / 2  && this.posX < posXbullet + asteroidWidth / 2 ) && 
           (this.posY >= posYbullet - asteroidHeight / 2 ) && 
