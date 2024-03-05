@@ -1,7 +1,5 @@
 PImage naveimg, asteroideimg, fondo;
-Boolean GenNum = true;
 Boolean onGame = true;
-Boolean win = false;
 int Op1, Op2, rondas, rightAns,a, b, wrongAns = 0;
 PVector navePos = new PVector(314, 385);
 ArrayList<Bullet> balas;

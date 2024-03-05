@@ -42,10 +42,6 @@ class Asteroide {
     text(str(value), this.posX + 30, this.posY - 20);
   }
   
-  void stop() {
-    enMovimiento = false;
-  }
-  
   boolean fueraDePantalla() {
     return this.posY > height + 100;
   }
