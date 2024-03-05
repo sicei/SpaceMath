@@ -19,9 +19,9 @@ This is an asteroid game developed in processing. The goal of the game is to des
 
 ## Screenshots
 <div style="display:flex;">
-    <img src="https://i.postimg.cc/Y03zpG1f/Captura-de-pantalla-2024-03-03-114831.png" alt="App Screenshot" width="400"/>
-    <img src="https://i.postimg.cc/wv9t9WFZ/Captura-de-pantalla-2024-03-03-114914.png" alt="App Screenshot" width="400"/>
-    <img src="https://i.postimg.cc/63JGYPrG/Captura-de-pantalla-2024-03-04-150221.png" alt="App Screenshot" width="400"/>
+    <img src="https://i.postimg.cc/sxW9n7qw/Captura-de-pantalla-2024-03-05-113836.png" alt="App Screenshot" width="400"/>
+    <img src="https://i.postimg.cc/J4cjGrLD/Captura-de-pantalla-2024-03-05-113923.png" alt="App Screenshot" width="400"/>
+    <img src="https://i.postimg.cc/HnFvnpDP/Felicidades-sobreviviste-todas-las-rondas.jpg" alt="App Screenshot" width="400"/>
 </div>
 
 
