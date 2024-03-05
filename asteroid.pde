@@ -62,13 +62,13 @@ class Asteroide {
       return false;
   }
   
-  boolean hitship(float posXnave) {
+  boolean hitship(PVector navePos) {
       float shipWidth = 155;
       float shipHeight = 114;
   
-      if ((this.posX > posXnave - shipWidth / 2  && this.posX < posXnave + shipWidth / 2 ) && 
-          (this.posY >= posYnave - shipHeight / 2 ) && 
-          (this.posY <= posYnave + shipHeight / 2 )) {
+      if ((this.posX > navePos.x - shipWidth / 2 && this.posX < navePos.x + shipWidth / 2) && 
+          (this.posY >= navePos.y - shipHeight / 2) && 
+          (this.posY <= navePos.y + shipHeight / 2)) {
           return true;
       }
       return false;

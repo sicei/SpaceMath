@@ -1,83 +1,71 @@
-PImage nave, asteroide, fondo;
+PImage naveimg, asteroideimg, fondo;
 Boolean GenNum = true;
 Boolean onGame = true;
 Boolean win = false;
 int Op1, Op2, rondas, rightAns,a, b, wrongAns = 0;
-int PosXnave =314;
-int posYnave = 385;
-Asteroide[] asteroides;
+PVector navePos = new PVector(314, 385);
+ArrayList<Bullet> balas;
+ArrayList<Asteroide> asteroides;
+ArrayList<Bullet> balasParaEliminar = new ArrayList<Bullet>();
+ArrayList<Asteroide> asteroidesParaEliminar = new ArrayList<Asteroide>();
 
  
 void setup() {
   size(800,600);
-  nave = loadImage("nave.png");
-  asteroide = loadImage("ast0.png");
+  naveimg = loadImage("nave.png");
+  asteroideimg = loadImage("ast0.png");
   fondo = loadImage("fondo.jpg");
+  balas = new ArrayList<Bullet>();
+  asteroides = new ArrayList<Asteroide>();
   startGame();
-}
-
-ArrayList<Bullet> balas = new ArrayList<Bullet>();
-
-Asteroide[] eliminarAsteroide(Asteroide[] array, int indice) {
-  Asteroide[] nuevoArray = new Asteroide[array.length - 1];
-  System.arraycopy(array, 0, nuevoArray, 0, indice);
-  System.arraycopy(array, indice + 1, nuevoArray, indice, array.length - indice - 1);
-  return nuevoArray;
 }
 
 void draw() {
   
  background(fondo);
- 
   
- if (onGame) {   
-    for (int i = balas.size() - 1; i >= 0; i--) {
-        Bullet bala = balas.get(i);
-        bala.mover();
-        bala.mostrar();
-    
-        for (int j = asteroides.length - 1; j >= 0; j--) {
-    
-            if (asteroides[j].hitbullet(bala.getX(), bala.getY())) {
-                balas.remove(i);
-                if (asteroides[j].getValue() == rightAns){
-                  asteroides[j].hit();
-                  if (asteroides[j].golpes == 4){
-                    asteroides = eliminarAsteroide(asteroides, j);
-                  }                  
-                }
-                else {  
-                  for (int k = 0; k < asteroides.length; k++) {
-                        asteroides[k].increaseSpeed();
-                  }                
-                } 
-                break;
-            }
-        }
-        if (!balas.isEmpty()) {
-            for (int z = balas.size() - 1; z >= 0; z--) {
-                if (balas.get(z).fueraDePantalla()) {
-                    balas.remove(z);
-                }
-            }
-        }
-    }   
-    for (int i = asteroides.length - 1; i >= 0; i--) {
-        asteroides[i].mover();
-        asteroides[i].mostrar();
-        if (asteroides[i].hitship(PosXnave)){
-            onGame = false;
-        }
-        if (asteroides[i].fueraDePantalla()){
-            rondas += 1;
-            startGame();
-        }
-    }
-    
-   image(nave,PosXnave,posYnave,155,114);
+  if (onGame) {
+      for (Bullet bala : balas) {
+          bala.mover();
+          bala.mostrar();
+  
+          for (Asteroide asteroide : asteroides) {
+              if (asteroide.hitbullet(bala.getX(), bala.getY())) {
+                  balasParaEliminar.add(bala);
+                  if (asteroide.getValue() == rightAns) {
+                      asteroide.hit();
+                      if (asteroide.golpes == 4) {
+                          asteroidesParaEliminar.add(asteroide);
+                      }
+                  } else {
+                      for (Asteroide ast : asteroides) {
+                          ast.increaseSpeed();
+                      }
+                  }
+                  break;
+              }
+          }
+      }
+  
+      balas.removeAll(balasParaEliminar);
+      asteroides.removeAll(asteroidesParaEliminar);
+  
+      for (Asteroide asteroide : asteroides) {
+          asteroide.mover();
+          asteroide.mostrar();
+          if (asteroide.hitship(navePos)) {
+              onGame = false;
+          }
+          if (asteroide.fueraDePantalla()) {
+              rondas += 1;
+              startGame();
+              break; 
+          }
+      }
+      
+   image(naveimg,navePos.x,navePos.y,155,114);
    showRound();
-
- }
+  }
  else {
    textSize(70);
    text("You Survived " + rondas + " Rounds", 60, 300);
@@ -95,18 +83,20 @@ void draw() {
  }
 }
 
+void showOperation(int a, int b, String sign){
+  textSize(50);
+  text(a + sign + b , 330, 560);
+}
+
 void showRound(){
   if (rondas >= 0 && rondas <= 2){
-     textSize(50);
-     text(a + " + " + b , 330, 560);    
+    showOperation(a, b, " + ");
   } else if (rondas >= 3 && rondas <= 5){
-     textSize(50);
-     text(a + " - " + b , 330, 560);   
+    showOperation(a, b, " - ");
   } else if (rondas >= 6 && rondas <= 8){
-     textSize(50);
-     text(a + " x " + b , 330, 560);  
+    showOperation(a, b, " x ");
   } else {
-    posYnave -= 5;
+    navePos.y -= 2;
     textSize(40);
     fill(255,255,0);
     text("Felicidades, sobreviviste todas las rondas", 60, 300);
@@ -114,14 +104,13 @@ void showRound(){
 }
 
 void createAsteroids(int rightAns){
-  
-  asteroides = new Asteroide[6];
-  int randomIndex = int(random(asteroides.length - 1));
-  for (int i = 0; i < asteroides.length; i++) {
+  asteroides.clear();
+  int randomIndex = int(random(6));
+  for (int i = 0; i < 6; i++) {
     if (i == randomIndex){
       float x = (i * 100) + (i * 40);
       float y = -100;
-      asteroides[i] = new Asteroide(x, y, asteroide, rightAns, 0);      
+      asteroides.add(new Asteroide(x, y, asteroideimg, rightAns, 0));      
     }
     else {
       do {  
@@ -129,7 +118,7 @@ void createAsteroids(int rightAns){
       } while (wrongAns == rightAns);
       float x = (i * 100) + (i * 40);
       float y = -100;
-      asteroides[i] = new Asteroide(x, y, asteroide, int(random(20)), 0);
+      asteroides.add(new Asteroide(x, y, asteroideimg, wrongAns, 0));
       
     }
   }
@@ -152,7 +141,6 @@ void selectRound(){
     createAsteroids(rightAns); 
     println(a + " * " + b + " = " +rightAns); 
   }
-  
 }
 
 void startGame() {
@@ -162,22 +150,17 @@ void startGame() {
   selectRound();
 }
 
-
 void keyPressed(){
   if(key == CODED){
     if (keyCode == UP) {
-      Bullet nuevaBala = new Bullet(PosXnave + 50, posYnave, loadImage("bullet.png"));
+      Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage("bullet.png"));
       balas.add(nuevaBala);
     }
-    if(keyCode == RIGHT){
-      if(PosXnave + 10 < 650){
-        PosXnave+=20;
-      }
+    if (keyCode == RIGHT && navePos.x + 10 < 650) {
+      navePos.add(20, 0);
     }
-    if(keyCode == LEFT){
-      if (PosXnave - 10 > 0){
-        PosXnave-=20;
-      }
-    }  
+    if (keyCode == LEFT && navePos.x - 10 > 0) {
+      navePos.sub(20, 0);
+    } 
   }
 }
