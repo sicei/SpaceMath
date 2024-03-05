@@ -21,6 +21,7 @@ This is an asteroid game developed in processing. The goal of the game is to des
 <div style="display:flex;">
     <img src="https://i.postimg.cc/Y03zpG1f/Captura-de-pantalla-2024-03-03-114831.png" alt="App Screenshot" width="400"/>
     <img src="https://i.postimg.cc/wv9t9WFZ/Captura-de-pantalla-2024-03-03-114914.png" alt="App Screenshot" width="400"/>
+    <img src="https://i.postimg.cc/63JGYPrG/Captura-de-pantalla-2024-03-04-150221.png" alt="App Screenshot" width="400"/>
 </div>
 
 
