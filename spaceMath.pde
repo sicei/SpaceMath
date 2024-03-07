@@ -7,6 +7,9 @@ ArrayList<Asteroide> asteroides;
 ArrayList<Bullet> balasParaEliminar = new ArrayList<Bullet>();
 ArrayList<Asteroide> asteroidesParaEliminar = new ArrayList<Asteroide>();
 String imgURL = "./assets/img/";
+import processing.sound.*;
+AudioIn input;
+Amplitude loudness;
  
 void setup() {
   size(800,600);
@@ -16,6 +19,12 @@ void setup() {
   balas = new ArrayList<Bullet>();
   asteroides = new ArrayList<Asteroide>();
   startGame();
+  input = new AudioIn(this, 0);
+
+  input.start();
+  loudness = new Amplitude(this);
+
+  loudness.input(input);
 }
 
 void draw() {
@@ -23,6 +32,16 @@ void draw() {
  background(fondo);
   
   if (onGame) {
+      float inputLevel = map(mouseY, 0, height, 1.0, 0.0);
+      input.amp(inputLevel);
+    
+      float volume = loudness.analyze();
+      if (volume > 0.1){
+        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
+        balas.add(nuevaBala);
+
+      }
+
       for (Bullet bala : balas) {
           bala.mover();
           bala.mostrar();
@@ -151,10 +170,6 @@ void startGame() {
 
 void keyPressed(){
   if(key == CODED){
-    if (keyCode == UP) {
-      Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
-      balas.add(nuevaBala);
-    }
     if (keyCode == RIGHT && navePos.x + 10 < 650) {
       navePos.add(20, 0);
     }
