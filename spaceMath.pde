@@ -12,7 +12,7 @@ void setup() {
   size(800,600);
   naveimg = loadImage(imgURL+"nave.png");
   asteroideimg = loadImage(imgURL+"ast0.png");
-  fondo = loadImage("fondo.png");
+  fondo = loadImage(imgURL+"fondo.png");
   balas = new ArrayList<Bullet>();
   asteroides = new ArrayList<Asteroide>();
   startGame();
@@ -152,7 +152,7 @@ void startGame() {
 void keyPressed(){
   if(key == CODED){
     if (keyCode == UP) {
-      Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage("bullet.png"));
+      Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
       balas.add(nuevaBala);
     }
     if (keyCode == RIGHT && navePos.x + 10 < 650) {
