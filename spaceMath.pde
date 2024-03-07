@@ -1,4 +1,6 @@
+import processing.sound.*;
 PImage naveimg, asteroideimg, fondo;
+SoundFile bulletSound, hitShipSound, hitAsteroidSound; 
 Boolean onGame = true;
 int Op1, Op2, rondas, rightAns,a, b, wrongAns = 0;
 PVector navePos = new PVector(314, 385);
@@ -7,7 +9,7 @@ ArrayList<Asteroide> asteroides;
 ArrayList<Bullet> balasParaEliminar = new ArrayList<Bullet>();
 ArrayList<Asteroide> asteroidesParaEliminar = new ArrayList<Asteroide>();
 String imgURL = "./assets/img/";
-import processing.sound.*;
+String soundsURL = "./assets/sounds/";
 AudioIn input;
 Amplitude loudness;
  
@@ -16,14 +18,16 @@ void setup() {
   naveimg = loadImage(imgURL+"nave.png");
   asteroideimg = loadImage(imgURL+"ast0.png");
   fondo = loadImage(imgURL+"fondo.png");
+  bulletSound = new SoundFile(this, soundsURL+"shoot.wav");
+  hitShipSound = new SoundFile(this, soundsURL+"explosion_ship.wav");
+  hitAsteroidSound = new SoundFile(this, soundsURL+"explosion_asteroid.wav");
+
   balas = new ArrayList<Bullet>();
   asteroides = new ArrayList<Asteroide>();
   startGame();
   input = new AudioIn(this, 0);
-
   input.start();
   loudness = new Amplitude(this);
-
   loudness.input(input);
 }
 
@@ -32,10 +36,9 @@ void draw() {
  background(fondo);
   
   if (onGame) {
-      float inputLevel = map(mouseY, 0, height, 1.0, 0.0);
-      input.amp(inputLevel);
       float volume = loudness.analyze();
-      if (volume > 0.1){
+      if (volume > 0.45){
+        bulletSound.play();
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
         balas.add(nuevaBala);
 
@@ -51,6 +54,7 @@ void draw() {
                   if (asteroide.getValue() == rightAns) {
                       asteroide.hit();
                       if (asteroide.golpes == 4) {
+                          hitAsteroidSound.play();
                           asteroidesParaEliminar.add(asteroide);
                       }
                   } else {
@@ -70,6 +74,7 @@ void draw() {
           asteroide.mover();
           asteroide.mostrar();
           if (asteroide.hitship(navePos)) {
+              hitShipSound.play();
               onGame = false;
           }
           if (asteroide.fueraDePantalla()) {
