@@ -11,8 +11,6 @@ import processing.sound.*;
 AudioIn input;
 Amplitude loudness;
 
-
- 
 void setup() {
   size(800,600);
   naveimg = loadImage("nave.png");
@@ -34,14 +32,6 @@ void draw() {
  background(fondo);
   
   if (onGame) {
-      float inputLevel = map(mouseY, 0, height, 1.0, 0.0);
-      input.amp(inputLevel);
-      float volume = loudness.analyze();
-      if (volume > 0.1){
-        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage("bullet.png"));
-        balas.add(nuevaBala);
-
-      }
 
       for (Bullet bala : balas) {
           bala.mover();
@@ -171,6 +161,12 @@ void startGame() {
 
 void keyPressed(){
   if(key == CODED){
+    if (keyCode == UP){
+    
+        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage("bullet.png"));
+        balas.add(nuevaBala);  
+    
+    }
     if (keyCode == RIGHT && navePos.x + 10 < 650) {
       navePos.add(20, 0);
     }
