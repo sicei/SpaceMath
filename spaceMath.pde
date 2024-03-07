@@ -36,7 +36,6 @@ void draw() {
   if (onGame) {
       float inputLevel = map(mouseY, 0, height, 1.0, 0.0);
       input.amp(inputLevel);
-    
       float volume = loudness.analyze();
       if (volume > 0.1){
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage("bullet.png"));
