@@ -1,6 +1,10 @@
 import processing.sound.*;
 PImage naveimg, asteroideimg, fondo;
 SoundFile bulletSound, hitShipSound, hitAsteroidSound; 
+AudioIn input;
+Amplitude loudness;
+SoundFile exploship;
+PImage naveimg, asteroideimg, fondo;
 Boolean onGame = true;
 int Op1, Op2, rondas, rightAns,a, b, wrongAns = 0;
 PVector navePos = new PVector(314, 385);
@@ -29,6 +33,33 @@ void setup() {
   input.start();
   loudness = new Amplitude(this);
   loudness.input(input);
+
+ 
+void setup() {
+  input = new AudioIn(this, 0);
+  exploship= new SoundFile(this, "explosion_ship.wav");
+  // Begin capturing the audio input
+  input.start();
+  // start() activates audio capture so that you can use it as
+  // the input to live sound analysis, but it does NOT cause the
+  // captured audio to be played back to you. if you also want the
+  // microphone input to be played back to you, call
+   //  input.play();
+  // instead (be careful with your speaker volume, you might produce
+  // painful audio feedback. best to first try it out wearing headphones!)
+
+  // Create a new Amplitude analyzer
+  loudness = new Amplitude(this);
+
+  // Patch the input to the volume analyzer
+  loudness.input(input);
+  size(800,600);
+  naveimg = loadImage("nave.png");
+  asteroideimg = loadImage("ast0.png");
+  fondo = loadImage("fondo.png");
+  balas = new ArrayList<Bullet>();
+  asteroides = new ArrayList<Asteroide>();
+  startGame();
 }
 
 void draw() {
@@ -43,7 +74,17 @@ void draw() {
         balas.add(nuevaBala);
 
       }
-
+      
+    float inputLevel = map(mouseY, 0, height, 1.0, 0.0);
+    input.amp(inputLevel);
+  
+    // loudness.analyze() return a value between 0 and 1. To adjust
+    // the scaling and mapping of an ellipse we scale from 0 to 0.5
+    float volume = loudness.analyze();
+    if (volume > 0.1){
+        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage("bullet.png"));
+        balas.add(nuevaBala);
+    }
       for (Bullet bala : balas) {
           bala.mover();
           bala.mostrar();

@@ -1,4 +1,4 @@
-# Asteroid Blaster Math Game 🚀☄️➕
+# Asteroid Blaster Math Game 🚀☄️➕🔢
 
 This is an asteroid game developed in processing. The goal of the game is to destroy the asteroids that carry the correct answer to a given mathematical operation. Each time you destroy an asteroid, you earn points. But be careful, if you hit an incorrect asteroid, all asteroids will increase their speed.
 
