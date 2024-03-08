@@ -37,7 +37,6 @@ void draw() {
  background(fondo);
   
   if (onGame) {
-    // Error con la variable duplicada
       float volume = loudness.analyze();
       if (volume > 0.45){
         bulletSound.play();
@@ -179,6 +178,13 @@ void startGame() {
 
 void keyPressed(){
   if(key == CODED){
+    //----- DESCOMENTAR PARA USAR EL TECLADO Y DISPARAR
+    
+    //if (keyCode == UP){
+    //   Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
+    //    balas.add(nuevaBala);
+    //}
+    
     if (keyCode == RIGHT && navePos.x + 10 < 650) {
       navePos.add(20, 0);
     }
