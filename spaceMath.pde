@@ -1,4 +1,11 @@
 import processing.sound.*;
+import processing.serial.*;
+Serial myPort;
+int maxDistance = 800;
+int lastDistance = 0;
+int threshold = 10;
+String portName = "COM3";
+String val;
 PImage naveimg, asteroideimg, fondo;
 SoundFile bulletSound, hitShipSound, hitAsteroidSound; 
 Boolean onGame = true;
@@ -15,6 +22,7 @@ Amplitude loudness;
  
 void setup() {
   size(800,600);
+  myPort = new Serial(this, portName, 9600);
   naveimg = loadImage(imgURL+"nave.png");
   asteroideimg = loadImage(imgURL+"ast0.png");
   fondo = loadImage(imgURL+"fondo.png");
@@ -36,8 +44,9 @@ void draw() {
  background(fondo);
   
   if (onGame) {
+    serialEvent(myPort);
       float volume = loudness.analyze();
-      if (volume > 0.45){
+      if (volume > 0.3){
         bulletSound.play();
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
         balas.add(nuevaBala);
@@ -103,6 +112,23 @@ void draw() {
    }
  }
 }
+
+void serialEvent(Serial myPort) {
+  String data = myPort.readStringUntil('\n');
+  if (data != null) {
+    data = trim(data);
+    float distance = float(data);
+    
+    if (abs(distance - lastDistance) <= threshold && distance <= maxDistance) {
+      lastDistance = int(distance);
+      float posX = map(distance, 0, 80, 0, width);
+      navePos.set(posX + 20, 385);
+    } else {
+      println("Lectura inválida: " + distance);
+    }
+  }
+}
+
 
 void showOperation(int a, int b, String sign){
   textSize(50);
@@ -174,11 +200,6 @@ void startGame() {
 
 void keyPressed(){
   if(key == CODED){
-    if (keyCode == RIGHT && navePos.x + 10 < 650) {
-      navePos.add(20, 0);
-    }
-    if (keyCode == LEFT && navePos.x - 10 > 0) {
-      navePos.sub(20, 0);
-    } 
+
   }
 }
