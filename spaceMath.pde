@@ -132,7 +132,11 @@ void serialEvent(Serial myPort) {
 }
 
 float distanceInPixels(float distance){
+<<<<<<< HEAD
   return (800/35) * distance;
+=======
+  return (800/30) * distance;
+>>>>>>> 84026d19ba1704ada900ddd09baee4cb75db7ace
 }
 
 

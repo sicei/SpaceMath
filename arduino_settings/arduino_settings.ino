@@ -35,5 +35,9 @@ void loop() {
 
   Serial.println(distance);
   
+<<<<<<< HEAD
   delay(50);
+=======
+  delay(50); 
+>>>>>>> 84026d19ba1704ada900ddd09baee4cb75db7ace
 }
