@@ -1,9 +1,7 @@
 import processing.sound.*;
 import processing.serial.*;
 Serial myPort;
-int maxDistance = 800;
-int lastDistance = 0;
-int threshold = 10;
+float prevDistance = 0;
 String portName = "COM3";
 String val;
 PImage naveimg, asteroideimg, fondo;
@@ -46,7 +44,7 @@ void draw() {
   if (onGame) {
     serialEvent(myPort);
       float volume = loudness.analyze();
-      if (volume > 0.3){
+      if (volume > 0.45){
         bulletSound.play();
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
         balas.add(nuevaBala);
@@ -118,15 +116,23 @@ void serialEvent(Serial myPort) {
   if (data != null) {
     data = trim(data);
     float distance = float(data);
-    
-    if (abs(distance - lastDistance) <= threshold && distance <= maxDistance) {
-      lastDistance = int(distance);
-      float posX = map(distance, 0, 80, 0, width);
-      navePos.set(posX + 20, 385);
-    } else {
-      println("Lectura inválida: " + distance);
-    }
+    if (distance != 0){
+      float posX = distanceInPixels(distance);
+       if (posX < 700) {
+        if (abs(posX - navePos.x) >= 20) {
+          navePos.set(posX, 385);
+          prevDistance = distance;
+        }
+
+      } else {
+        navePos.set(distanceInPixels(prevDistance), 385);
+      }
+    }   
   }
+}
+
+float distanceInPixels(float distance){
+  return (800/35) * distance;
 }
 
 
