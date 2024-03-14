@@ -44,7 +44,7 @@ void draw() {
   if (onGame) {
     serialEvent(myPort);
       float volume = loudness.analyze();
-      if (volume > 0.45){
+      if (volume > 0.35){
         bulletSound.play();
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
         balas.add(nuevaBala);
@@ -132,11 +132,7 @@ void serialEvent(Serial myPort) {
 }
 
 float distanceInPixels(float distance){
-<<<<<<< HEAD
   return (800/35) * distance;
-=======
-  return (800/30) * distance;
->>>>>>> 84026d19ba1704ada900ddd09baee4cb75db7ace
 }
 
 
