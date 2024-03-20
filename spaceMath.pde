@@ -159,19 +159,19 @@ void showRound(){
 
 void createAsteroids(int rightAns){
   asteroides.clear();
-  int randomIndex = int(random(6));
-  for (int i = 0; i < 6; i++) {
+  int randomIndex = int(random(3));
+  for (int i = 0; i < 3; i++) {
     if (i == randomIndex){
-      float x = (i * 95) + (i * 40);
-      float y = -100;
+      float x = (i * 50) + (i * 210);
+      float y = -200;
       asteroides.add(new Asteroide(x, y, asteroideimg, rightAns, 0));      
     }
     else {
       do {  
         wrongAns = int(random(20));
       } while (wrongAns == rightAns);
-      float x = (i * 95) + (i * 40);
-      float y = -100;
+      float x = (i * 50) + (i * 210);
+      float y = -200;
       asteroides.add(new Asteroide(x, y, asteroideimg, wrongAns, 0));
       
     }
@@ -204,8 +204,19 @@ void startGame() {
   selectRound();
 }
 
-void keyPressed(){
-  if(key == CODED){
-
-  }
-}
+// Descomentar esta funcion para usar las flechas del teclado.
+//void keyPressed(){
+//  if(key == CODED){
+//    if (keyCode == UP){
+//        bulletSound.play();
+//        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
+//        balas.add(nuevaBala);
+    
+//    }
+//    if (keyCode == RIGHT && navePos.x + 10 < 650) {
+//      navePos.add(20, 0);
+//    }
+//    if (keyCode == LEFT && navePos.x - 10 > 0) {
+//      navePos.sub(20, 0);
+//    } 
+//  }

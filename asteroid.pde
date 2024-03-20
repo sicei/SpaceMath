@@ -21,7 +21,6 @@ class Asteroide {
     }
   }
   
-  
   void mover() {
     if (enMovimiento){
       this.posY += speed;
@@ -37,13 +36,13 @@ class Asteroide {
   }
   
   void mostrar() {
-    image(this.imagen, this.posX, this.posY, 130, 130);
-    textSize(50);
+    image(this.imagen, this.posX, this.posY, 270, 270);
+    textSize(90);
     fill(0,0,0);
     if (this.value < 9){
-      text(str(value), this.posX + 50, this.posY + 80);
+      text(str(value), this.posX + 110, this.posY + 160);
     } else { 
-      text(str(value), this.posX + 40, this.posY + 80);    
+      text(str(value), this.posX + 90, this.posY + 160);    
     }  
   }
   
@@ -52,26 +51,26 @@ class Asteroide {
   }
   
   boolean hitbullet(float posXbullet, float posYbullet) {
-      float asteroidWidth = 120;
-      float asteroidHeight = 120;
-  
-      if ((this.posX > posXbullet - asteroidWidth / 2  && this.posX < posXbullet + asteroidWidth / 2 ) && 
-          (this.posY >= posYbullet - asteroidHeight / 2 ) && 
-          (this.posY <= posYbullet + asteroidHeight / 2)) {
+    if (posXbullet >= this.posX &&
+        posXbullet <= this.posX + 210 &&
+        posYbullet >= this.posY &&
+        posYbullet <= this.posY + 210) {
           return true;
-      }
-      return false;
+        
+        } else{
+          return false;
+        }
   }
   
   boolean hitship(PVector navePos) {
-      float shipWidth = 155;
-      float shipHeight = 114;
-  
-      if ((this.posX > navePos.x - shipWidth / 2 && this.posX < navePos.x + shipWidth / 2) && 
-          (this.posY >= navePos.y - shipHeight / 2) && 
-          (this.posY <= navePos.y + shipHeight / 2)) {
-          return true;
+      if (navePos.x >= this.posX &&
+          navePos.x <= this.posX + 250 &&
+          navePos.y >= this.posY &&
+          navePos.y <= this.posY + 230) {
+            return true;
+      } else {
+            return false;
       }
-      return false;
   }
+
 }
