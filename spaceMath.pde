@@ -119,11 +119,8 @@ void serialEvent(Serial myPort) {
     if (distance != 0){
       float posX = distanceInPixels(distance);
        if (posX < 700) {
-        if (abs(posX - navePos.x) >= 20) {
           navePos.set(posX, 385);
           prevDistance = distance;
-        }
-
       } else {
         navePos.set(distanceInPixels(prevDistance), 385);
       }
@@ -132,6 +129,7 @@ void serialEvent(Serial myPort) {
 }
 
 float distanceInPixels(float distance){
+  println(distance);
   return (800/35) * distance;
 }
 
@@ -153,7 +151,7 @@ void showRound(){
     navePos.y -= 2;
     textSize(40);
     fill(255,255,0);
-    text("Felicidades, sobreviviste todas las rondas", 60, 300);
+    text("Congratulations, you survived all the rounds", 60, 300);
   }
 }
 
