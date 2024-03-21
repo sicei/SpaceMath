@@ -44,7 +44,7 @@ void draw() {
   if (onGame) {
     serialEvent(myPort);
       float volume = loudness.analyze();
-      if (volume > 0.35){
+      if (volume > 0.15){
         bulletSound.play();
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
         balas.add(nuevaBala);
@@ -205,18 +205,18 @@ void startGame() {
 }
 
 // Descomentar esta funcion para usar las flechas del teclado.
-//void keyPressed(){
-//  if(key == CODED){
-//    if (keyCode == UP){
-//        bulletSound.play();
-//        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
-//        balas.add(nuevaBala);
-    
-//    }
-//    if (keyCode == RIGHT && navePos.x + 10 < 650) {
-//      navePos.add(20, 0);
-//    }
-//    if (keyCode == LEFT && navePos.x - 10 > 0) {
-//      navePos.sub(20, 0);
-//    } 
-//  }
+void keyPressed(){
+  if(key == CODED){
+    if (keyCode == UP){
+        bulletSound.play();
+        Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
+        balas.add(nuevaBala);
+    }
+    if (keyCode == RIGHT && navePos.x + 10 < 650) {
+      navePos.add(20, 0);
+    }
+    if (keyCode == LEFT && navePos.x - 10 > 0) {
+      navePos.sub(20, 0);
+    } 
+  }
+}
