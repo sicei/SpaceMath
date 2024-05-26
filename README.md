@@ -113,7 +113,9 @@ matematicas, entre otros. Se es implementada en SpaceMath para que se ajusta a l
   
 [![Captura-de-pantalla-2024-05-26-104624-removebg-preview.png](https://i.postimg.cc/8zBvRP70/Captura-de-pantalla-2024-05-26-104624-removebg-preview.png)](https://postimg.cc/TK1hGxqV)
 
+
 ## Screenshots
+https://github.com/sicei/SpaceMath/assets/113460982/a70a57b6-ec24-4f17-af32-3a5ec9d43692
 <div style="display:flex;">
     <img src="https://i.postimg.cc/sxW9n7qw/Captura-de-pantalla-2024-03-05-113836.png" alt="App Screenshot" width="400"/>
     <img src="https://i.postimg.cc/J4cjGrLD/Captura-de-pantalla-2024-03-05-113923.png" alt="App Screenshot" width="400"/>
