@@ -38,13 +38,12 @@ void setup() {
 }
 
 void draw() {
-  
  background(fondo);
   
   if (onGame) {
     serialEvent(myPort);
       float volume = loudness.analyze();
-      if (volume > 0.15){
+      if (volume > 0.27){
         bulletSound.play();
         Bullet nuevaBala = new Bullet(navePos.x + 50, navePos.y, loadImage(imgURL+"bullet.png"));
         balas.add(nuevaBala);
@@ -60,7 +59,7 @@ void draw() {
                   balasParaEliminar.add(bala);
                   if (asteroide.getValue() == rightAns) {
                       asteroide.hit();
-                      if (asteroide.golpes == 4) {
+                      if (asteroide.golpes == 3) {
                           hitAsteroidSound.play();
                           asteroidesParaEliminar.add(asteroide);
                       }
@@ -129,7 +128,6 @@ void serialEvent(Serial myPort) {
 }
 
 float distanceInPixels(float distance){
-  println(distance);
   return (800/35) * distance;
 }
 
@@ -166,7 +164,7 @@ void createAsteroids(int rightAns){
     }
     else {
       do {  
-        wrongAns = int(random(20));
+        wrongAns = int(random(40));
       } while (wrongAns == rightAns);
       float x = (i * 50) + (i * 210);
       float y = -200;
@@ -177,8 +175,8 @@ void createAsteroids(int rightAns){
 }
 
 void selectRound(){
-  a = int(random(10));
-  b = int(random(10));
+  a = int(random(20));
+  b = int(random(20));
   Operacion operacion = new Operacion(a, b);
   if (rondas >= 0 && rondas <= 2){
     rightAns = operacion.suma();
@@ -197,8 +195,8 @@ void selectRound(){
 
 void startGame() {
   fill(255,255,255);
-  onGame = true;
   balas.clear();
+  onGame = true;
   selectRound();
 }
 

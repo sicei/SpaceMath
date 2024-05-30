@@ -14,7 +14,7 @@ class Asteroide {
   }
   
   void hit(){
-    if (this.golpes < 5) {
+    if (this.golpes < 3) {
       this.posX += random(-2,2);
       this.posY += random(-25,0);
       this.golpes += 1;
